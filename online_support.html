@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#00a884">
+    <title>BAC Service - Online Support</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .phone-frame {
+            max-width: 414px;
+            margin: 0 auto;
+            background: #f5f7fa;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 20px 12px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo {
+            width: 36px;
+            height: 36px;
+            background: #1a3a5c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .brand-text h1 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a3a5c;
+            line-height: 1.2;
+        }
+        .brand-text span {
+            font-size: 9px;
+            color: #8898aa;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .lang-selector {
+            font-size: 12px;
+            color: #8898aa;
+            font-weight: 600;
+            padding: 4px 10px;
+            border: 1.5px solid #e0e6ed;
+            border-radius: 16px;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 0 20px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .page-icon {
+            width: 44px;
+            height: 44px;
+            background: #e0f7fa;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+        .page-title-info h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a3a5c;
+        }
+        .page-title-info p {
+            font-size: 13px;
+            color: #8898aa;
+            margin-top: 2px;
+        }
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #eef1f5;
+            flex-shrink: 0;
+        }
+        .back-btn svg {
+            width: 18px;
+            height: 18px;
+            color: #1a3a5c;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a3a5c;
+            padding: 0 20px;
+            margin-bottom: 12px;
+            margin-top: 20px;
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background: #fff;
+            border-top: 1px solid #eef1f5;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 20px;
+            z-index: 100;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            padding: 4px 16px;
+        }
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+        }
+        .nav-label {
+            font-size: 10px;
+        }
+
+        
+        .support-options { padding: 0 16px; margin-bottom: 20px; }
+        .whatsapp-card {
+            display: block;
+            background: #075e54;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        .whatsapp-card::before {
+            content: ''; position: absolute; top: -20px; right: -20px; width: 100px; height: 100px;
+            background: rgba(255,255,255,0.05); border-radius: 50%;
+        }
+        .support-icon-large { font-size: 40px; margin-bottom: 8px; }
+        .whatsapp-card h3 { color: #fff; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+        .whatsapp-card p { color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 12px; }
+        .support-badge { display: inline-block; background: #00a884; color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+        .support-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .support-item {
+            background: #fff;
+            border-radius: 14px;
+            padding: 14px 6px;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #eef1f5;
+        }
+        .support-item .support-icon { width: 36px; height: 36px; background: #e3f2fd; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; margin: 0 auto 6px; }
+        .support-item span { font-size: 11px; font-weight: 600; color: #333; }
+        .chat-list { padding: 0 16px; }
+        .chat-item {
+            display: flex; align-items: center; gap: 12px;
+            background: #fff; border-radius: 14px; padding: 14px;
+            margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #eef1f5;
+        }
+        .chat-avatar {
+            width: 44px; height: 44px; background: #1a3a5c; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 10px; font-weight: 800; flex-shrink: 0;
+        }
+        .chat-info { flex: 1; min-width: 0; }
+        .chat-info h4 { font-size: 14px; font-weight: 700; color: #1a3a5c; margin-bottom: 3px; }
+        .chat-info p { font-size: 12px; color: #667781; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .chat-meta { text-align: right; flex-shrink: 0; }
+        .chat-time { font-size: 11px; color: #8898aa; display: block; margin-bottom: 4px; }
+        .chat-unread { display: inline-block; background: #00a884; color: #fff; width: 18px; height: 18px; border-radius: 50%; font-size: 10px; font-weight: 700; line-height: 18px; text-align: center; }
+        
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <div class="logo">BAC</div>
+                <div class="brand-text">
+                    <h1>BAC Service</h1>
+                    <span>BALTIMORE AIRCOIL</span>
+                </div>
+            </div>
+            <div class="lang-selector">sg EN</div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <a href="pwa_home.html" class="back-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <div class="page-icon">💬</div>
+            <div class="page-title-info">
+                <h2>Online Support</h2>
+                <p>Live chat & technical assistance</p>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        
+        <div class="support-options">
+            <a href="https://wa.me/6591234567?text=Hi%20BAC%20Service%2C%20I%20need%20technical%20support%20for%20my%20equipment" class="support-card whatsapp-card">
+                <div class="support-icon-large">💬</div>
+                <h3>WhatsApp Support</h3>
+                <p>Get instant replies from our support team</p>
+                <span class="support-badge">● Online</span>
+            </a>
+            <div class="support-grid">
+                <a href="#" class="support-item">
+                    <div class="support-icon">📞</div>
+                    <span>Call Us</span>
+                </a>
+                <a href="#" class="support-item">
+                    <div class="support-icon">📧</div>
+                    <span>Email</span>
+                </a>
+                <a href="#" class="support-item">
+                    <div class="support-icon">🎥</div>
+                    <span>Video Call</span>
+                </a>
+                <a href="#" class="support-item">
+                    <div class="support-icon">❓</div>
+                    <span>FAQ</span>
+                </a>
+            </div>
+        </div>
+        <div class="section-title">Recent Conversations</div>
+        <div class="chat-list">
+            <div class="chat-item">
+                <div class="chat-avatar">BAC</div>
+                <div class="chat-info">
+                    <h4>BAC Support Team</h4>
+                    <p>Your service request #SR-2026-0892 has been updated...</p>
+                </div>
+                <div class="chat-meta">
+                    <span class="chat-time">2m ago</span>
+                    <span class="chat-unread">1</span>
+                </div>
+            </div>
+            <div class="chat-item">
+                <div class="chat-avatar" style="background:#7cb342;">AI</div>
+                <div class="chat-info">
+                    <h4>BAC AI Assistant</h4>
+                    <p>Here are the troubleshooting steps for your cooling tower...</p>
+                </div>
+                <div class="chat-meta">
+                    <span class="chat-time">1h ago</span>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Spacer for bottom nav -->
+        <div style="height: 80px;"></div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            
+            <a href="pwa_home.html" class="nav-item ">
+                <svg class="nav-icon" style="color: #8898aa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span class="nav-label" style="color: #8898aa;font-weight: 500;">Home</span>
+            </a>
+        
+            <a href="service_repair.html" class="nav-item active">
+                <svg class="nav-icon" style="color: #1a3a5c;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                <span class="nav-label" style="color: #1a3a5c;font-weight: 700;">Service</span>
+            </a>
+        
+            <a href="tech_library.html" class="nav-item ">
+                <svg class="nav-icon" style="color: #8898aa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <span class="nav-label" style="color: #8898aa;font-weight: 500;">Library</span>
+            </a>
+        
+            <a href="my_equipment.html" class="nav-item ">
+                <svg class="nav-icon" style="color: #8898aa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span class="nav-label" style="color: #8898aa;font-weight: 500;">Profile</span>
+            </a>
+        
+        </div>
+    </div>
+</body>
+</html>

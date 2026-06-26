@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2196f3">
+    <title>BAC Service - Service & Repair</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .phone-frame {
+            max-width: 414px;
+            margin: 0 auto;
+            background: #f5f7fa;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 20px 12px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo {
+            width: 36px;
+            height: 36px;
+            background: #1a3a5c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .brand-text h1 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a3a5c;
+            line-height: 1.2;
+        }
+        .brand-text span {
+            font-size: 9px;
+            color: #8898aa;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .lang-selector {
+            font-size: 12px;
+            color: #8898aa;
+            font-weight: 600;
+            padding: 4px 10px;
+            border: 1.5px solid #e0e6ed;
+            border-radius: 16px;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 0 20px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .page-icon {
+            width: 44px;
+            height: 44px;
+            background: #e3f2fd;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+        .page-title-info h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a3a5c;
+        }
+        .page-title-info p {
+            font-size: 13px;
+            color: #8898aa;
+            margin-top: 2px;
+        }
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #eef1f5;
+            flex-shrink: 0;
+        }
+        .back-btn svg {
+            width: 18px;
+            height: 18px;
+            color: #1a3a5c;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a3a5c;
+            padding: 0 20px;
+            margin-bottom: 12px;
+            margin-top: 20px;
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background: #fff;
+            border-top: 1px solid #eef1f5;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 20px;
+            z-index: 100;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            padding: 4px 16px;
+        }
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+        }
+        .nav-label {
+            font-size: 10px;
+        }
+
+        
+        .service-actions { padding: 0 16px; margin-bottom: 20px; }
+        .service-btn {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #fff;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #eef1f5;
+            transition: all 0.2s;
+        }
+        .service-btn.primary { background: #1a3a5c; border-color: #1a3a5c; }
+        .service-btn.primary h3 { color: #fff; }
+        .service-btn.primary p { color: rgba(255,255,255,0.7); }
+        .service-btn:active { transform: scale(0.98); }
+        .btn-icon { width: 44px; height: 44px; background: #e3f2fd; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+        .service-btn.primary .btn-icon { background: rgba(255,255,255,0.15); }
+        .service-btn h3 { font-size: 15px; font-weight: 700; color: #1a3a5c; margin-bottom: 2px; }
+        .service-btn p { font-size: 12px; color: #667781; }
+        .request-list { padding: 0 16px; }
+        .request-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #eef1f5;
+        }
+        .request-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .request-id { font-size: 11px; color: #8898aa; font-weight: 600; font-family: monospace; }
+        .request-status { padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .request-status.pending { background: #fff3e0; color: #e65100; }
+        .request-status.completed { background: #e8f5e9; color: #2e7d32; }
+        .request-card h3 { font-size: 14px; font-weight: 700; color: #1a3a5c; margin-bottom: 4px; }
+        .request-card > p { font-size: 12px; color: #8898aa; margin-bottom: 12px; }
+        .request-progress { display: flex; justify-content: space-between; position: relative; }
+        .request-progress::before {
+            content: ''; position: absolute; top: 10px; left: 10%; right: 10%; height: 2px; background: #e0e6ed; z-index: 0;
+        }
+        .step {
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            font-size: 9px; color: #b0bec5; font-weight: 600; position: relative; z-index: 1;
+        }
+        .step::before {
+            content: ''; width: 20px; height: 20px; border-radius: 50%; background: #e0e6ed; border: 2px solid #fff;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .step.done::before { background: #7cb342; }
+        .step.active::before { background: #2196f3; }
+        .step.done { color: #7cb342; }
+        .step.active { color: #2196f3; }
+        
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <div class="logo">BAC</div>
+                <div class="brand-text">
+                    <h1>BAC Service</h1>
+                    <span>BALTIMORE AIRCOIL</span>
+                </div>
+            </div>
+            <div class="lang-selector">sg EN</div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <a href="pwa_home.html" class="back-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <div class="page-icon">🏠</div>
+            <div class="page-title-info">
+                <h2>Service & Repair</h2>
+                <p>Request maintenance & track status</p>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        
+        <div class="service-actions">
+            <a href="#" class="service-btn primary">
+                <span class="btn-icon">📝</span>
+                <div>
+                    <h3>Submit Service Request</h3>
+                    <p>Report an issue or schedule maintenance</p>
+                </div>
+            </a>
+            <a href="#" class="service-btn">
+                <span class="btn-icon">📅</span>
+                <div>
+                    <h3>Schedule Inspection</h3>
+                    <p>Book a routine equipment inspection</p>
+                </div>
+            </a>
+        </div>
+        <div class="section-title">Active Requests</div>
+        <div class="request-list">
+            <div class="request-card">
+                <div class="request-header">
+                    <span class="request-id">#SR-2026-0892</span>
+                    <span class="request-status pending">Pending</span>
+                </div>
+                <h3>Cooling Tower Fan Motor Issue</h3>
+                <p>Submitted: Jun 24, 2026 · Model: BAC-3000</p>
+                <div class="request-progress">
+                    <div class="step done">Submitted</div>
+                    <div class="step active">Review</div>
+                    <div class="step">Dispatch</div>
+                    <div class="step">Complete</div>
+                </div>
+            </div>
+            <div class="request-card">
+                <div class="request-header">
+                    <span class="request-id">#SR-2026-0841</span>
+                    <span class="request-status completed">Completed</span>
+                </div>
+                <h3>Quarterly Maintenance Check</h3>
+                <p>Completed: Jun 20, 2026 · Model: BAC-1500</p>
+                <div class="request-progress">
+                    <div class="step done">Submitted</div>
+                    <div class="step done">Review</div>
+                    <div class="step done">Dispatch</div>
+                    <div class="step done">Complete</div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Spacer for bottom nav -->
+        <div style="height: 80px;"></div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            
+            <a href="pwa_home.html" class="nav-item ">
+                <svg class="nav-icon" style="color: #8898aa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span class="nav-label" style="color: #8898aa;font-weight: 500;">Home</span>
+            </a>
+        
+            <a href="service_repair.html" class="nav-item active">
+                <svg class="nav-icon" style="color: #1a3a5c;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                <span class="nav-label" style="color: #1a3a5c;font-weight: 700;">Service</span>
+            </a>
+        
+            <a href="tech_library.html" class="nav-item ">
+                <svg class="nav-icon" style="color: #8898aa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <span class="nav-label" style="color: #8898aa;font-weight: 500;">Library</span>
+            </a>
+        
+            <a href="my_equipment.html" class="nav-item ">
+                <svg class="nav-icon" style="color: #8898aa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span class="nav-label" style="color: #8898aa;font-weight: 500;">Profile</span>
+            </a>
+        
+        </div>
+    </div>
+</body>
+</html>

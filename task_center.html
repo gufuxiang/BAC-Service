@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#7cb342">
+    <title>BAC Service - Task Center</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .phone-frame {
+            max-width: 414px;
+            margin: 0 auto;
+            background: #f5f7fa;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 20px 12px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo {
+            width: 36px;
+            height: 36px;
+            background: #1a3a5c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .brand-text h1 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a3a5c;
+            line-height: 1.2;
+        }
+        .brand-text span {
+            font-size: 9px;
+            color: #8898aa;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .lang-selector {
+            font-size: 12px;
+            color: #8898aa;
+            font-weight: 600;
+            padding: 4px 10px;
+            border: 1.5px solid #e0e6ed;
+            border-radius: 16px;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 0 20px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .page-icon {
+            width: 44px;
+            height: 44px;
+            background: #e8f5e9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+        .page-title-info h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a3a5c;
+        }
+        .page-title-info p {
+            font-size: 13px;
+            color: #8898aa;
+            margin-top: 2px;
+        }
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #eef1f5;
+            flex-shrink: 0;
+        }
+        .back-btn svg {
+            width: 18px;
+            height: 18px;
+            color: #1a3a5c;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a3a5c;
+            padding: 0 20px;
+            margin-bottom: 12px;
+            margin-top: 20px;
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background: #fff;
+            border-top: 1px solid #eef1f5;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 20px;
+            z-index: 100;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            padding: 4px 16px;
+        }
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+        }
+        .nav-label {
+            font-size: 10px;
+        }
+
+        
+        .task-list { padding: 0 16px; }
+        .task-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #eef1f5;
+        }
+        .task-status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .task-status.active { background: #e8f5e9; color: #2e7d32; }
+        .task-status.done { background: #e3f2fd; color: #1565c0; }
+        .task-card h3 { font-size: 15px; font-weight: 700; color: #1a3a5c; margin-bottom: 6px; }
+        .task-card p { font-size: 13px; color: #667781; margin-bottom: 10px; line-height: 1.4; }
+        .task-meta { display: flex; gap: 12px; font-size: 12px; color: #8898aa; font-weight: 600; }
+        .task-card.completed { opacity: 0.7; }
+        .points-summary {
+            margin: 20px 16px;
+            background: #1a3a5c;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .points-circle {
+            width: 80px;
+            height: 80px;
+            background: #7cb342;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .points-num { font-size: 24px; font-weight: 800; color: #fff; }
+        .points-label { font-size: 9px; color: rgba(255,255,255,0.8); font-weight: 600; }
+        .points-info { flex: 1; }
+        .points-info h4 { color: #fff; font-size: 15px; margin-bottom: 4px; }
+        .points-info p { color: rgba(255,255,255,0.6); font-size: 12px; margin-bottom: 10px; }
+        .progress-bar { height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #7cb342; border-radius: 3px; transition: width 0.5s; }
+        
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <div class="logo">BAC</div>
+                <div class="brand-text">
+                    <h1>BAC Service</h1>
+                    <span>BALTIMORE AIRCOIL</span>
+                </div>
+            </div>
+            <div class="lang-selector">sg EN</div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <a href="pwa_home.html" class="back-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <div class="page-icon">📋</div>
+            <div class="page-title-info">
+                <h2>Task Center</h2>
+                <p>3 active · earn 250pts</p>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        
+        <div class="task-list">
+            <div class="task-card">
+                <div class="task-status active">Active</div>
+                <h3>Complete Equipment Registration</h3>
+                <p>Register your BAC equipment to activate warranty coverage</p>
+                <div class="task-meta">
+                    <span>⏱ 2 min</span>
+                    <span>🏆 100 pts</span>
+                </div>
+            </div>
+            <div class="task-card">
+                <div class="task-status active">Active</div>
+                <h3>Upload Service Photos</h3>
+                <p>Share photos of your equipment for service assessment</p>
+                <div class="task-meta">
+                    <span>⏱ 5 min</span>
+                    <span>🏆 80 pts</span>
+                </div>
+            </div>
+            <div class="task-card">
+                <div class="task-status active">Active</div>
+                <h3>Review Technical Manual</h3>
+                <p>Read the latest technical manual for your equipment model</p>
+                <div class="task-meta">
+                    <span>⏱ 10 min</span>
+                    <span>🏆 70 pts</span>
+                </div>
+            </div>
+            <div class="task-card completed">
+                <div class="task-status done">Completed</div>
+                <h3>Connect WhatsApp Channel</h3>
+                <p>Link your WhatsApp for instant alerts and updates</p>
+                <div class="task-meta">
+                    <span>✓ Done</span>
+                    <span>🏆 50 pts earned</span>
+                </div>
+            </div>
+        </div>
+        <div class="points-summary">
+            <div class="points-circle">
+                <span class="points-num">250</span>
+                <span class="points-label">Total Points</span>
+            </div>
+            <div class="points-info">
+                <h4>Your Progress</h4>
+                <p>Complete 3 more tasks to reach Gold tier</p>
+                <div class="progress-bar"><div class="progress-fill" style="width:65%"></div></div>
+            </div>
+        </div>
+        
+
+        <!-- Spacer for bottom nav -->
+        <div style="height: 80px;"></div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            
+            <a href="pwa_home.html" class="nav-item active">
+                <svg class="nav-icon" style="color: #1a3a5c;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span class="nav-label" style="color: #1a3a5c;font-weight: 700;">Home</span>
+            </a>
+        
+            <a href="service_repair.html" class="nav-item ">
+                <svg class="nav-icon" style="color: #8898aa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                <span class="nav-label" style="color: #8898aa;font-weight: 500;">Service</span>
+            </a>
+        
+            <a href="tech_library.html" class="nav-item ">
+                <svg class="nav-icon" style="color: #8898aa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <span class="nav-label" style="color: #8898aa;font-weight: 500;">Library</span>
+            </a>
+        
+            <a href="my_equipment.html" class="nav-item ">
+                <svg class="nav-icon" style="color: #8898aa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span class="nav-label" style="color: #8898aa;font-weight: 500;">Profile</span>
+            </a>
+        
+        </div>
+    </div>
+</body>
+</html>

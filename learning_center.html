@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#009688">
+    <title>BAC Service - Learning Center</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .phone-frame {
+            max-width: 414px;
+            margin: 0 auto;
+            background: #f5f7fa;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 20px 12px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo {
+            width: 36px;
+            height: 36px;
+            background: #1a3a5c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .brand-text h1 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a3a5c;
+            line-height: 1.2;
+        }
+        .brand-text span {
+            font-size: 9px;
+            color: #8898aa;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .lang-selector {
+            font-size: 12px;
+            color: #8898aa;
+            font-weight: 600;
+            padding: 4px 10px;
+            border: 1.5px solid #e0e6ed;
+            border-radius: 16px;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 0 20px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .page-icon {
+            width: 44px;
+            height: 44px;
+            background: #e0f7fa;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+        .page-title-info h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a3a5c;
+        }
+        .page-title-info p {
+            font-size: 13px;
+            color: #8898aa;
+            margin-top: 2px;
+        }
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid #eef1f5;
+            flex-shrink: 0;
+        }
+        .back-btn svg {
+            width: 18px;
+            height: 18px;
+            color: #1a3a5c;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a3a5c;
+            padding: 0 20px;
+            margin-bottom: 12px;
+            margin-top: 20px;
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background: #fff;
+            border-top: 1px solid #eef1f5;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 20px;
+            z-index: 100;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            padding: 4px 16px;
+        }
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+        }
+        .nav-label {
+            font-size: 10px;
+        }
+
+        
+        .learning-hero { margin: 0 16px 20px; background: #1a3a5c; border-radius: 16px; padding: 20px; }
+        .learning-stats { display: flex; justify-content: space-around; }
+        .stat-item { text-align: center; }
+        .stat-num { display: block; font-size: 28px; font-weight: 800; color: #fff; }
+        .stat-label { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 600; }
+        .course-list { padding: 0 16px; margin-bottom: 20px; }
+        .course-card {
+            display: flex; align-items: center; gap: 14px;
+            background: #fff; border-radius: 14px; padding: 14px;
+            margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #eef1f5;
+        }
+        .progress-ring {
+            width: 50px; height: 50px; border-radius: 50%;
+            background: conic-gradient(#009688 calc(var(--progress) * 1%), #e0e6ed 0);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; flex-shrink: 0;
+        }
+        .progress-ring::before {
+            content: ''; position: absolute; width: 38px; height: 38px; background: #fff; border-radius: 50%;
+        }
+        .progress-ring span { position: relative; z-index: 1; font-size: 11px; font-weight: 700; color: #009688; }
+        .course-info { flex: 1; }
+        .course-info h3 { font-size: 14px; font-weight: 700; color: #1a3a5c; margin-bottom: 3px; }
+        .course-info p { font-size: 11px; color: #8898aa; margin-bottom: 8px; }
+        .course-bar { height: 4px; background: #e0e6ed; border-radius: 2px; overflow: hidden; }
+        .course-bar div { height: 100%; background: #009688; border-radius: 2px; }
+        .course-btn { background: #009688; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+        .rec-list { padding: 0 16px; }
+        .rec-card {
+            display: flex; align-items: center; gap: 12px;
+            background: #fff; border-radius: 14px; padding: 14px;
+            margin-bottom: 10px; text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #eef1f5;
+        }
+        .rec-icon { width: 44px; height: 44px; background: #e0f7fa; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+        .rec-info h4 { font-size: 14px; font-weight: 700; color: #1a3a5c; margin-bottom: 2px; }
+        .rec-info p { font-size: 11px; color: #8898aa; }
+        
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <div class="logo">BAC</div>
+                <div class="brand-text">
+                    <h1>BAC Service</h1>
+                    <span>BALTIMORE AIRCOIL</span>
+                </div>
+            </div>
+            <div class="lang-selector">sg EN</div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <a href="pwa_home.html" class="back-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <div class="page-icon">🎓</div>
+            <div class="page-title-info">
+                <h2>Learning Center</h2>
+                <p>Training & certification programs</p>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        
+        <div class="learning-hero">
+            <div class="learning-stats">
+                <div class="stat-item">
+                    <span class="stat-num">3</span>
+                    <span class="stat-label">In Progress</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">12</span>
+                    <span class="stat-label">Completed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-num">2</span>
+                    <span class="stat-label">Certified</span>
+                </div>
+            </div>
+        </div>
+        <div class="section-title">Continue Learning</div>
+        <div class="course-list">
+            <div class="course-card">
+                <div class="course-progress">
+                    <div class="progress-ring" style="--progress:75">
+                        <span>75%</span>
+                    </div>
+                </div>
+                <div class="course-info">
+                    <h3>Cooling Tower Fundamentals</h3>
+                    <p>Module 4 of 6 · 45 min remaining</p>
+                    <div class="course-bar"><div style="width:75%"></div></div>
+                </div>
+                <a href="#" class="course-btn">Resume</a>
+            </div>
+            <div class="course-card">
+                <div class="course-progress">
+                    <div class="progress-ring" style="--progress:30">
+                        <span>30%</span>
+                    </div>
+                </div>
+                <div class="course-info">
+                    <h3>Preventive Maintenance</h3>
+                    <p>Module 2 of 8 · 2.5 hrs remaining</p>
+                    <div class="course-bar"><div style="width:30%"></div></div>
+                </div>
+                <a href="#" class="course-btn">Resume</a>
+            </div>
+        </div>
+        <div class="section-title">Recommended Courses</div>
+        <div class="rec-list">
+            <a href="#" class="rec-card">
+                <div class="rec-icon">⚡</div>
+                <div class="rec-info">
+                    <h4>Energy Efficiency Optimization</h4>
+                    <p>Advanced · 4 hrs · Certificate</p>
+                </div>
+            </a>
+            <a href="#" class="rec-card">
+                <div class="rec-icon">🔧</div>
+                <div class="rec-info">
+                    <h4>Advanced Troubleshooting</h4>
+                    <p>Expert · 6 hrs · Certificate</p>
+                </div>
+            </a>
+        </div>
+        
+
+        <!-- Spacer for bottom nav -->
+        <div style="height: 80px;"></div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            
+            <a href="pwa_home.html" class="nav-item ">
+                <svg class="nav-icon" style="color: #8898aa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span class="nav-label" style="color: #8898aa;font-weight: 500;">Home</span>
+            </a>
+        
+            <a href="service_repair.html" class="nav-item ">
+                <svg class="nav-icon" style="color: #8898aa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                <span class="nav-label" style="color: #8898aa;font-weight: 500;">Service</span>
+            </a>
+        
+            <a href="tech_library.html" class="nav-item active">
+                <svg class="nav-icon" style="color: #1a3a5c;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <span class="nav-label" style="color: #1a3a5c;font-weight: 700;">Library</span>
+            </a>
+        
+            <a href="my_equipment.html" class="nav-item ">
+                <svg class="nav-icon" style="color: #8898aa;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span class="nav-label" style="color: #8898aa;font-weight: 500;">Profile</span>
+            </a>
+        
+        </div>
+    </div>
+</body>
+</html>

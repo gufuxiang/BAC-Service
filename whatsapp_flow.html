@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#075e54">
+    <title>WhatsApp - BAC Service</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #e5ddd5;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .phone-frame {
+            max-width: 414px;
+            margin: 0 auto;
+            background: #e5ddd5;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* WhatsApp Header */
+        .wa-header {
+            background: #075e54;
+            color: #fff;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .back-btn {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        .wa-avatar {
+            width: 40px;
+            height: 40px;
+            background: #1a3a5c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            color: #fff;
+        }
+        .wa-contact {
+            flex: 1;
+        }
+        .wa-contact h2 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .wa-contact span {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        .wa-actions {
+            display: flex;
+            gap: 20px;
+        }
+        .wa-actions svg {
+            width: 22px;
+            height: 22px;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        /* Chat Area */
+        .chat-area {
+            padding: 16px;
+            padding-bottom: 80px;
+            background: 
+                repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px),
+                #e5ddd5;
+        }
+
+        /* Date Separator */
+        .date-sep {
+            text-align: center;
+            margin: 12px 0;
+        }
+        .date-sep span {
+            background: #d1e7dd;
+            color: #54656f;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 4px 12px;
+            border-radius: 8px;
+        }
+
+        /* Message Bubbles */
+        .msg {
+            max-width: 85%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
+        }
+        .msg-in {
+            background: #fff;
+            color: #111b21;
+            align-self: flex-start;
+            margin-right: auto;
+            border-top-left-radius: 0;
+            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+        }
+        .msg-out {
+            background: #d9fdd3;
+            color: #111b21;
+            align-self: flex-end;
+            margin-left: auto;
+            border-top-right-radius: 0;
+            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+        }
+        .msg-time {
+            font-size: 10px;
+            color: #667781;
+            text-align: right;
+            margin-top: 2px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 4px;
+        }
+        .msg-read {
+            color: #53bdeb;
+        }
+
+        /* System Message */
+        .system-msg {
+            text-align: center;
+            margin: 16px 0;
+        }
+        .system-msg span {
+            background: #ffebeb;
+            color: #667781;
+            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .welcome-card h3 {
+            font-size: 16px;
+            color: #1a3a5c;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .welcome-card p {
+            font-size: 13px;
+            color: #54656f;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .info-list {
+            list-style: none;
+            margin-bottom: 16px;
+        }
+        .info-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 13px;
+            color: #111b21;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .info-list li:last-child { border-bottom: none; }
+        .info-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .info-icon.name { background: #e3f2fd; }
+        .info-icon.company { background: #e8f5e9; }
+        .info-icon.email { background: #fff3e0; }
+        .info-label {
+            font-size: 11px;
+            color: #667781;
+            display: block;
+        }
+        .info-value {
+            font-weight: 600;
+            color: #111b21;
+        }
+
+        .quick-reply {
+            display: inline-block;
+            background: #fff;
+            border: 1.5px solid #00a884;
+            color: #00a884;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        /* Success Card */
+        .success-card {
+            background: #e8f5e9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 12px;
+            border: 1px solid #c8e6c9;
+        }
+        .success-card h3 {
+            font-size: 16px;
+            color: #2e7d32;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .success-card p {
+            font-size: 13px;
+            color: #388e3c;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .pwa-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1a3a5c;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-bottom: 12px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .feature-item {
+            background: #fff;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #2e7d32;
+            font-weight: 500;
+        }
+        .feature-item .emoji { font-size: 20px; display: block; margin-bottom: 4px; }
+
+        /* Input Area */
+        .input-area {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background: #f0f2f5;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-top: 1px solid #d1d7db;
+        }
+        .input-attach {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #54656f;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .input-field {
+            flex: 1;
+            background: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 16px;
+            font-size: 14px;
+            outline: none;
+        }
+        .input-field::placeholder { color: #8696a0; }
+        .input-send {
+            width: 36px;
+            height: 36px;
+            background: #00a884;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <!-- WhatsApp Header -->
+        <div class="wa-header">
+            <a href="pwa_home.html" style="color:#fff;text-decoration:none;">
+                <svg class="back-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <div class="wa-avatar">BAC</div>
+            <div class="wa-contact">
+                <h2>BAC Service</h2>
+                <span>online</span>
+            </div>
+            <div class="wa-actions">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="19" cy="12" r="1"></circle>
+                    <circle cx="5" cy="12" r="1"></circle>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div class="date-sep"><span>Today</span></div>
+
+            <!-- System Welcome -->
+            <div class="system-msg"><span>Messages to this chat are now secured with end-to-end encryption.</span></div>
+
+            <!-- Bot Welcome Message -->
+            <div class="msg msg-in">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                    <div style="width:32px;height:32px;background:#1a3a5c;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800;">BAC</div>
+                    <div>
+                        <div style="font-weight:600;color:#1a3a5c;">BAC Service Bot</div>
+                        <div style="font-size:11px;color:#667781;">Automated</div>
+                    </div>
+                </div>
+                <div class="welcome-card" style="margin:0;">
+                    <h3>👋 Welcome to BAC Service!</h3>
+                    <p>Thank you for choosing Baltimore Aircoil. To activate your equipment warranty and unlock full service access, please provide the following information:</p>
+                    <ul class="info-list">
+                        <li>
+                            <span class="info-icon name">👤</span>
+                            <div>
+                                <span class="info-label">Name</span>
+                                <span class="info-value">Your full name</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="info-icon company">🏢</span>
+                            <div>
+                                <span class="info-label">Company</span>
+                                <span class="info-value">Your company name</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="info-icon email">📧</span>
+                            <div>
+                                <span class="info-label">Email</span>
+                                <span class="info-value">Your email address</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <p style="font-size:12px;color:#667781;margin-bottom:8px;">Once completed, you'll instantly receive:</p>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <span style="background:#e8f5e9;color:#2e7d32;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;">✓ Warranty Activation</span>
+                        <span style="background:#e3f2fd;color:#1565c0;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;">✓ Manual Access</span>
+                        <span style="background:#fff3e0;color:#e65100;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;">✓ Spare Parts</span>
+                        <span style="background:#f3e5f5;color:#7b1fa2;padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;">✓ Tech Support</span>
+                    </div>
+                </div>
+                <div class="msg-time">9:42 AM</div>
+            </div>
+
+            <!-- User Reply -->
+            <div class="msg msg-out">
+                Name: John Smith<br>
+                Company: ABC Cooling Systems<br>
+                Email: john.smith@abccooling.com
+                <div class="msg-time">
+                    9:45 AM
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="msg-read">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Bot Confirmation -->
+            <div class="msg msg-in">
+                <div class="success-card" style="margin:0;">
+                    <h3>✅ Registration Successful!</h3>
+                    <p>Hi <strong>John</strong>, your account has been activated. Your equipment (SN: BAC-2026-8847-XJ) is now under warranty.</p>
+                    <a href="pwa_home.html" class="pwa-link">
+                        🔗 Return to BAC Service PWA
+                    </a>
+                    <p style="font-size:12px;color:#667781;margin-bottom:0;">Or use WhatsApp directly for:</p>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <span class="emoji">📖</span>
+                            Query Manuals
+                        </div>
+                        <div class="feature-item">
+                            <span class="emoji">🔧</span>
+                            Service Request
+                        </div>
+                        <div class="feature-item">
+                            <span class="emoji">💰</span>
+                    Get Parts Quote
+                        </div>
+                        <div class="feature-item">
+                            <span class="emoji">💬</span>
+                            Live Support
+                        </div>
+                    </div>
+                </div>
+                <div class="msg-time">9:46 AM</div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <div class="input-attach">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                </svg>
+            </div>
+            <input type="text" class="input-field" placeholder="Type a message...">
+            <div class="input-send">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
