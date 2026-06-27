@@ -292,7 +292,11 @@
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
+        .channel-tag:active { transform: scale(0.95); }
         .channel-tag.whatsapp {
             background: #e8f5e9;
             color: #2e7d32;
@@ -302,9 +306,9 @@
             color: #1565c0;
         }
         .channel-tag.add {
-            background: #f5f7fa;
-            color: #8898aa;
-            border: 1.5px dashed #d0d8e0;
+            background: #fff;
+            color: #1a3a5c;
+            border: 1.5px solid #d0d8e0;
         }
 
         /* Bottom Nav */
@@ -422,7 +426,7 @@
                     <p>3 active · earn 250pts</p>
                 </div>
             </a>
-            <a href="https://wa.me/+8613402590498?text=Hi%20BAC%20Service%2C%20I%20want%20to%20connect%20on%20WhatsApp" class="card card-blue">
+            <a href="https://wa.me/+8613402590498?text=Hi%20BAC%20Service%2C%20I%20want%20to%20connect%20on%20WhatsApp" target="_blank" rel="noopener" class="card card-blue">
                 <div class="card-icon">💬</div>
                 <div>
                     <h3>Connect on WhatsApp</h3>
@@ -500,9 +504,9 @@
         <div class="channels">
             <div class="channels-label">Connected Channels</div>
             <div class="channels-row">
-                <div class="channel-tag whatsapp">● WhatsApp</div>
-                <div class="channel-tag email">● Email</div>
-                <div class="channel-tag add">+ Add SMS</div>
+                <a href="https://wa.me/+8613402590498?text=Hi%20BAC%20Service%2C%20I%20need%20help" target="_blank" rel="noopener" class="channel-tag whatsapp">● WhatsApp</a>
+                <a href="mailto:support@baltimoreaircoil.com?subject=BAC%20Service%20Inquiry" class="channel-tag email">● Email</a>
+                <a href="sms:+8613402590498?body=BAC%20Service%20Inquiry" class="channel-tag add">+ Add SMS</a>
             </div>
         </div>
 
