@@ -349,6 +349,27 @@
             color: #8898aa;
             font-weight: 500;
         }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c0c8d4;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0a8b4;
+        }
+        /* Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #c0c8d4 transparent;
+        }
+
         /* Confetti */
         .confetti-container {
             position: fixed;
